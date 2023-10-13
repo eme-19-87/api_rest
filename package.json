@@ -1,0 +1,27 @@
+{
+  "name": "api-rest",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "ejercicio API REST para el curso de Talentos Digitales",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "API",
+    "REST",
+    "Talentos",
+    "Digitales"
+  ],
+  "author": "Espinoza Enrique Manuel espinoza.enrique.87@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
