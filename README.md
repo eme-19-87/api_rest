@@ -14,7 +14,7 @@
   </li>
 </ul>
 <p>
-  La estructura de la tabla Libros es de la siguiente manera
+  La estructura de la tabla Libros de la consigna es de la siguiente manera
   
 </p>
 <code>create table Libros(
@@ -25,3 +25,8 @@
   	anio_publicacion date,
   	ISBN varchar(15)
 	);</code><br>
+
+<p>
+ <strong> Nota: El atributo "nombre" se cambio a varchar(60) para aceptar nombres de libros más largos. Además, se modificó el atributo ISBN para agregarle un constraint de valor único.
+ </strong>
+</p>
