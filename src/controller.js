@@ -1,6 +1,7 @@
 import {pool} from "./database.js";
 import {controlarDatosNuevo} from "./excepciones.js";
 import {controlarEliminacion} from "./excepciones.js";
+import {controlarObtenerUno} from "./excepciones.js";
 import {controlarActualizacion} from "./excepciones.js";
 import {armarQueryActualizacion} from "./auxiliares.js";
 import {obtenerFecha} from "./auxiliares.js";
@@ -24,7 +25,7 @@ class LibrosController{
 				res.json(result);
 		} catch(e) {
 			// statements
-			console.log(e);
+			res.json({"Error": e});
 		}
 		
 	}
@@ -48,7 +49,7 @@ class LibrosController{
 				
 		} catch(e) {
 			// statements
-			return res.send(e);
+			res.json({"Error": e});
 		}
 		
 	}
@@ -56,6 +57,7 @@ class LibrosController{
 	async getOne(req, res){
 		try {
 				const libro=req.body;
+				controlarObtenerUno(libro);
 				const id_libro=parseInt(libro.id);
 				const [result]= await pool.query(`select * from libros where id=?`,
 					[id_libro]);
@@ -71,7 +73,7 @@ class LibrosController{
 				}
 		} catch(e) {
 			// statements
-			res.send(e);
+			res.json({"Error": e});
 		}
 		
 		
@@ -90,7 +92,7 @@ class LibrosController{
 				//armo la query según los campos que estén presentes
 				const query=armarQueryActualizacion(libro)+` where id=(?)`;
 				//recupero los valores ya sea si existen o no
-                let valores=[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion];
+                let valores=[libro.nombre,libro.autor,libro.categoria,libro.ISBN,libro.anio_publicacion];
                 //dejo a la fecha última, si se tiene algo, la transformo en un objeto Date
                 if(valores[valores.length-1]!=undefined){
                 	valores[valores.length-1]=obtenerFecha(valores[valores.length-1]);
@@ -102,10 +104,6 @@ class LibrosController{
                 
                 //inserto el id en la última posición
                 valores.push(id);
-                //console.log(query);
-                //console.log(valores);
-				//console.log(datos);
-				//Inserto el nuevo registro
 				
 				const [result]= await pool.query(query,valores);
 				//reviso si una o más filas fueron afectas, sino, emito el error
@@ -139,6 +137,7 @@ class LibrosController{
 		} catch(e) {
 			// statements
 			console.log(e);
+			res.json({"Error": e});
 		}
 	}
 

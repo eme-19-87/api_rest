@@ -14,7 +14,7 @@ export function armarQueryActualizacion(libro){
 	if(claves.includes("nombre")) query+=` nombre=(?),`;
 	if(claves.includes("autor")) query+=` autor=(?),`;
 	if(claves.includes("categoria")) query+=` categoria=(?),`;
-    if(claves.includes("ISBN")) query+=` categoria=(?),`;
+    if(claves.includes("ISBN")) query+=` ISBN=(?),`;
 	if(claves.includes("anio_publicacion")) query+=` anio_publicacion=(?),`;
     if(query===query_base){
         throw ("Por favor, coloque alguno de los campos válidos para realizar la actualización");
@@ -59,6 +59,6 @@ export function obtenerFecha(fecha){
     if (d > diasPorMes[m - 1]) throw ("Hay más días de los permitidos en el mes");
     
     //Fecha válida
-    return new Date(a,m,d);
+    return new Date(a,m-1,d);
     
 }
