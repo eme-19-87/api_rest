@@ -7,12 +7,27 @@
 </p>
 <ul>
   <li>
-    getAll: permite obtener todos los datos de los libros en formato json. No requiere argumentos
+    <p>
+      getAll: permite obtener todos los datos de los libros en formato json. No requiere argumentos.
+    </p>
+    <p>
+      Ruta: http://localhost:3000/api/libros/getAll
+    </p>
   </li>
    <li>
-    getOne: permite obtener los datos de un solo libro mediante el id del mismo. Si se utiliza Postman para el envío de peticiones, requiere que en body de la petición se envíe un texto raw de tipo json donde el par clave-valor enviado tendrá en su clave "id" y el valor será el id del número buscado. En caso de existir, retornará la información del libro. Si no existe un libro con el id indicado, retornará un mensaje de error en formato json.
+    <p>
+      getOne: permite obtener los datos de un solo libro mediante el id del mismo. Si se utiliza Postman para el envío de peticiones, requiere que en body de la petición se envíe un texto raw de tipo json donde el par clave-valor enviado tendrá en su clave "id" y el valor será el id del número buscado. En caso de existir, retornará la información del libro. Si no existe un libro con el id indicado, retornará un mensaje de error en formato json.
+    </p>
+    <p>
+      Ruta:http://localhost:3000/api/libros/getOne
+    </p>
+    <p>
+      Parámetros: En el cuerpo de Postman debe enviarse un dato de tipo raw y json, cuyo par clave-valor tendrá como clave "id" y el valor será el id del libro buscado.
+    </p>
   </li>
 </ul>
+
+
 <p>
   La estructura de la tabla Libros de la consigna es de la siguiente manera
   

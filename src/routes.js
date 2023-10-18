@@ -6,6 +6,7 @@ import { libros } from './controller.js';
 
 export const router=express.Router();
 
-router.get('/getAll',libros.getAll);
-router.post('/addLibro',libros.add);
-router.get('/getOne',libros.getOne);
+router.get('/api/libros/getAll',libros.getAll);
+router.post('/api/libros/addLibro',libros.add);
+router.get('/api/libros/getOne',libros.getOne);
+router.patch('/api/libros/updateLibro',libros.update);
