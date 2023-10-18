@@ -127,6 +127,14 @@ class LibrosController{
 		try {
 			const libro=req.body;
 			controlarEliminacion(libro);
+			const isbn=libro.ISBN
+			const [result]= await pool.query(`delete from libros where ISBN=(?)`,isbn);
+			//reviso si una o más filas fueron afectas, sino, emito el error
+			if(result.affectedRows>0){
+				res.json({"Registros Eliminados": result.affectedRows});
+			}else{
+				throw "No se pudo eliminar el libro. Controle que el ISBN sea válido";
+			}
 
 		} catch(e) {
 			// statements
