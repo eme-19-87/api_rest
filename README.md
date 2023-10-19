@@ -3,7 +3,7 @@
   Repositorio con ejercicios de API REST para el curso de Talentos Digitales
 </p>
 <p>
-  La aplicación permite obtener la información de los libros de una biblioteca almacenado en una base de datos Biblioteca en la tabla Libros. Se emplea Xampp para trabajar con Apache y MySql, NodeJS y Express para crear el servidor y los métodos necesarios para acceder a la API, y se emplea Postman para enviar las peticiones y comprobar los resultados. La API dará dos servicios: 
+  La aplicación permite obtener la información de los libros de una biblioteca almacenado en una base de datos Biblioteca en la tabla Libros. Se emplea Xampp para trabajar con Apache y MySql, NodeJS y Express para crear el servidor y los métodos necesarios para acceder a la API, y se emplea Postman para enviar las peticiones y comprobar los resultados. La API dará los siguientes servicios: 
 </p>
 <ul>
   <li>
@@ -16,13 +16,47 @@
   </li>
    <li>
     <p>
-      getOne: permite obtener los datos de un solo libro mediante el id del mismo. Si se utiliza Postman para el envío de peticiones, requiere que en body de la petición se envíe un texto raw de tipo json donde el par clave-valor enviado tendrá en su clave "id" y el valor será el id del número buscado. En caso de existir, retornará la información del libro. Si no existe un libro con el id indicado, retornará un mensaje de error en formato json.
+      getOne: permite obtener los datos de un solo libro mediante el id del mismo. Si se utiliza Postman para el envío de peticiones, requiere que en body de la petición se envíe un texto raw de tipo json donde el par clave-valor enviado tendrá en su clave "id" y el valor será el id del libro buscado. En caso de existir, retornará la información del libro. Si no existe un libro con el id indicado, retornará un mensaje de error en formato json.
     </p>
     <p>
       Ruta:http://localhost:3000/api/libros/getOne
     </p>
     <p>
       Parámetros: En el cuerpo de Postman debe enviarse un dato de tipo raw y json, cuyo par clave-valor tendrá como clave "id" y el valor será el id del libro buscado.
+    </p>
+  </li>
+<li>
+    <p>
+      addLibro: permite agregar un nuevo libro pasando en el cuerpo del requerimiento en formato json el nombre del autor, el nombre del libro, la categoría del libro, la fecha de publicación y el ISBN. Todos los datos deben estar presentes, excepto el id del libro que se genera automáticamente. La fecha debe ser colocada en el formato dd/mm/aaaa.
+    </p>
+    <p>
+      Ruta:http://localhost:3000/api/libros/addLibro
+    </p>
+    <p>
+      Parámetros: En el cuerpo de Postman debe enviarse un dato de tipo raw y json, cuyo par clave-valor estará formado por los campos: "nombre", "autor", "categoria", "anio_publicacion", "ISBN" y los valores serán aquellos requeridos por cada campo. La fecha debe estar en formato dd/mm/aaaa. El ISBN debe ser único.
+    </p>
+  </li>
+<li>
+    <p>
+      updateLibro: permite actualizar los datos de un libro mediante el id del mismo. Los datos pasados deben ser los mismos que para addLibro, pero no se requiere que sean pasados todos a la vez, ya que la API puede modificar sólo algunos campos del libro. Es obligatorio pasar el id del libro para la actualización.
+    </p>
+    <p>
+      Ruta:http://localhost:3000/api/libros/updateLibro
+    </p>
+    <p>
+     Parámetros: En el cuerpo de Postman debe enviarse un dato de tipo raw y json, cuyo par clave-valor estará formado por los campos: "nombre", "autor", "categoria", "anio_publicacion", "ISBN" y los valores serán aquellos requeridos por cada campo. La fecha debe estar en formato dd/mm/aaaa. El ISBN debe ser único.
+	    No requiere todos los pares clave-valor, ya que la API puede actualizar uno o varios de los campos válidos, pero requiere que se pase el id del libro que se desea actualizar.
+    </p>
+  </li>
+<li>
+    <p>
+      deleteLibro: permite eliminar un libro de la base de datos pasando como dato el ISBN del libro
+    </p>
+    <p>
+      Ruta:http://localhost:3000/api/libros/deleteLibro
+    </p>
+    <p>
+     Parámetros: En el cuerpo de Postman debe enviarse un dato de tipo raw y json, cuyo par clave-valor estará formado por la clave "ISBN" y el valor será el valor del ISBN del libro que deseamos eliminar. Sólo se permite como dato un ISBN válido.
     </p>
   </li>
 </ul>
