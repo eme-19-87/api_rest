@@ -1,4 +1,11 @@
 import {pool} from "./database.js";
+import {controlarDatosNuevo} from "./excepciones.js";
+import {controlarEliminacion} from "./excepciones.js";
+import {controlarObtenerUno} from "./excepciones.js";
+import {controlarActualizacion} from "./excepciones.js";
+import {armarQueryActualizacion} from "./auxiliares.js";
+import {obtenerFecha} from "./auxiliares.js";
+
 
 class LibrosController{
 
@@ -18,7 +25,7 @@ class LibrosController{
 				res.json(result);
 		} catch(e) {
 			// statements
-			console.log(e);
+			res.status(404).json({"Error": e});
 		}
 		
 	}
@@ -29,17 +36,20 @@ class LibrosController{
 				// El formato de la fecha de publicación es dia/mes/año
 				//Creo un arreglo con el día,mes y anio usando la '/' como punto de separación
 				//El indice 0 es el mes, el índice 1 es el día, y el índice 2 es el año
-				const arregloAnio=libro.anio.split("/");
+				//const arregloAnio=libro.anio.split("/");
 				//Creo el objeto fecha
-				const fecha_publicacion=new Date(arregloAnio[1],arregloAnio[0],arregloAnio[2]);
+				controlarDatosNuevo(libro);
+				const fecha_publicacion=obtenerFecha(libro.anio_publicacion);
 				//Inserto el nuevo registro
 				const [result]= await pool.query(`Insert into libros(nombre,autor,categoria,anio_publicacion,ISBN)
 					values(?,?,?,?,?)`,[libro.nombre,libro.autor,libro.categoria,fecha_publicacion,libro.ISBN]);
-				//convierto el resultado en un json
-				res.json({"Id insetado": result.insertId});
+					//convierto el resultado en un json
+					res.status(201).json({"Id insertado": result.insertId});
+				
+				
 		} catch(e) {
 			// statements
-			console.log(e);
+			res.status(404).json({"Error": e});
 		}
 		
 	}
@@ -47,6 +57,7 @@ class LibrosController{
 	async getOne(req, res){
 		try {
 				const libro=req.body;
+				controlarObtenerUno(libro);
 				const id_libro=parseInt(libro.id);
 				const [result]= await pool.query(`select * from libros where id=?`,
 					[id_libro]);
@@ -56,16 +67,83 @@ class LibrosController{
 				if (result[0]!=undefined){
 					res.json(result);
 				}else{
-					res.json({"Error": "No se ha encontrado un libro con el id especificado"});
+					
+					throw (`No existe un libro con el id:${id_libro}`);
+
 				}
 		} catch(e) {
 			// statements
-			console.log(e);
+			res.status(404).json({"Error": e});
 		}
 		
 		
 	}
+
+
+
+	async update(req,res){
+		try {
+				//recupero los datos del cuerpo del requerimiento
+				const libro=req.body;
+				//controlo que los datos sean correctos
+				controlarActualizacion(libro);
+				//si lo son, recupero el id y lo convierto a entero
+				const id=parseInt(libro.id);
+				//armo la query según los campos que estén presentes
+				const query=armarQueryActualizacion(libro)+` where id=(?)`;
+				//recupero los valores ya sea si existen o no
+                let valores=[libro.nombre,libro.autor,libro.categoria,libro.ISBN,libro.anio_publicacion];
+                //dejo a la fecha última, si se tiene algo, la transformo en un objeto Date
+                if(valores[valores.length-1]!=undefined){
+                	valores[valores.length-1]=obtenerFecha(valores[valores.length-1]);
+                };
+                //filtro los valores que no son undefined
+                valores=valores.filter((dato)=>{
+                	if(dato!=undefined) return dato;
+                });
+                
+                //inserto el id en la última posición
+                valores.push(id);
+				
+				const [result]= await pool.query(query,valores);
+				//reviso si una o más filas fueron afectas, sino, emito el error
+				if(result.affectedRows>0){
+					res.json({"Registros Actualizados": result.affectedRows});
+				}else{
+					throw "No se pudo actualizar el libro. Controle que el id sea válido";
+				}
+				
+				
+		} catch(e) {
+			// statements
+			console.log(e);
+			res.status(404).json({"Error": e});
+		}
+	}
+
+	async delete(req,res){
+		try {
+			const libro=req.body;
+			controlarEliminacion(libro);
+			const isbn=libro.ISBN
+			const [result]= await pool.query(`delete from libros where ISBN=(?)`,isbn);
+			//reviso si una o más filas fueron afectas, sino, emito el error
+			if(result.affectedRows>0){
+				res.json({"Registros Eliminados": result.affectedRows});
+			}else{
+				throw "No se pudo eliminar el libro. Controle que el ISBN sea válido";
+			}
+
+		} catch(e) {
+			// statements
+			console.log(e);
+			res.status(404).json({"Error": e});
+		}
+	}
+
+	
 }
+
 
 //exportamos una instancia de LibrosController
 export const libros=new LibrosController();
