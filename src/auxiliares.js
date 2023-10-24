@@ -62,3 +62,4 @@ export function obtenerFecha(fecha){
     return new Date(a,m-1,d);
     
 }
+

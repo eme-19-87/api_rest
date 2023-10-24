@@ -8,6 +8,7 @@ export const router=express.Router();
 
 router.get('/api/libros/getAll',libros.getAll);
 router.post('/api/libros/addLibro',libros.add);
-router.get('/api/libros/getOne',libros.getOne);
+//router.get('/api/libros/getOne',libros.getOne);
+router.get('/api/libros/getOne/:id',libros.getOne);
 router.patch('/api/libros/updateLibro',libros.update);
 router.delete('/api/libros/deleteLibro',libros.delete);

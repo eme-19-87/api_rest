@@ -31,6 +31,7 @@ class LibrosController{
 	}
 
 	async add(req, res){
+	   
 		try {
 				const libro=req.body;
 				// El formato de la fecha de publicación es dia/mes/año
@@ -56,11 +57,13 @@ class LibrosController{
 
 	async getOne(req, res){
 		try {
-				const libro=req.body;
+				const libro={"id":parseInt(req.query.id)}
 				controlarObtenerUno(libro);
-				const id_libro=parseInt(libro.id);
+				
+				//const id_libro=parseInt(libro.id);
+				//const id_libro=parseInt(req.query.id);
 				const [result]= await pool.query(`select * from libros where id=?`,
-					[id_libro]);
+					[libro.id]);
 				//convierto el resultado en un json. Si existe el atributo id, entonces no será nulo
 				//en caso contrario, si lo será. Si no es nulo, retorno el resultado, sino, retorno
 				//el mensaje de error.
@@ -105,6 +108,7 @@ class LibrosController{
                 //inserto el id en la última posición
                 valores.push(id);
 				
+				//realizo la consulta
 				const [result]= await pool.query(query,valores);
 				//reviso si una o más filas fueron afectas, sino, emito el error
 				if(result.affectedRows>0){

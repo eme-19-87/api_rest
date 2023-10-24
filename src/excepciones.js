@@ -38,11 +38,13 @@ function controlarBlancos(libro){
 		Obtenido de: 
 		https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Object/values
 	*/
-	const valores=Object.values(libro);
-	const valido=valores.reduce((resultado,valor)=>{
+	const campos=Object.keys(libro);
+	//const campos_blancos=[];
+	/*const valido=valores.reduce((resultado,valor,indice)=>{
 		return resultado && valor!=="";
-	},true);
-	if(!valido) throw("Existen claves con valores en blanco");
+	},true);*/
+	const campos_blancos=campos.filter((valor)=>libro[valor]==="");
+	if(campos_blancos.length>0) throw(`Hay campos en blanco. Estos son ${campos_blancos}`);
 }
 
 
@@ -54,11 +56,12 @@ function controlarCampos(libro,campos_validos){
 
 	*/
 	
+	
 	const campos_invalidos=Object.keys(libro).filter((valor)=>{
 
 		if(!campos_validos.includes(valor)) return valor;});
 
-	if (campos_invalidos.length>0) throw(`Campos Válidos: ${campos_validos}. Campos Inválidos: ${campos_invalidos}`);
+	if (campos_invalidos.length>0) throw(`Hay campos inválidos en los datos. Estos son: ${campos_invalidos}`);
 }
 
 
