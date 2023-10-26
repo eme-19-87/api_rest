@@ -57,7 +57,7 @@ class LibrosController{
 
 	async getOne(req, res){
 		try {
-				const libro={"id":parseInt(req.query.id)}
+				const libro={"id":parseInt(req.params.id)};
 				controlarObtenerUno(libro);
 				
 				//const id_libro=parseInt(libro.id);
@@ -67,16 +67,19 @@ class LibrosController{
 				//convierto el resultado en un json. Si existe el atributo id, entonces no será nulo
 				//en caso contrario, si lo será. Si no es nulo, retorno el resultado, sino, retorno
 				//el mensaje de error.
-				if (result[0]!=undefined){
+				//console.log(result);
+				if (result[0]!==undefined){
 					res.json(result);
 				}else{
+					console.log("Entra else");
+					throw `No existe un libro con el id:${libro.id}`;
 					
-					throw (`No existe un libro con el id:${id_libro}`);
 
 				}
 		} catch(e) {
 			// statements
-			res.status(404).json({"Error": e});
+			console.log(e);
+			res.status(404).json({"error": e});
 		}
 		
 		
@@ -102,7 +105,7 @@ class LibrosController{
                 };
                 //filtro los valores que no son undefined
                 valores=valores.filter((dato)=>{
-                	if(dato!=undefined) return dato;
+                	if(dato!==undefined) return dato;
                 });
                 
                 //inserto el id en la última posición

@@ -16,13 +16,13 @@
   </li>
    <li>
     <p>
-      getOne: permite obtener los datos de un solo libro mediante el id del mismo. Si se utiliza Postman para el envío de peticiones, requiere que en body de la petición se envíe un texto raw de tipo json donde el par clave-valor enviado tendrá en su clave "id" y el valor será el id del libro buscado. En caso de existir, retornará la información del libro. Si no existe un libro con el id indicado, retornará un mensaje de error en formato json.
+      getOne: permite obtener los datos de un solo libro mediante el id del mismo.
     </p>
     <p>
-      Ruta:http://localhost:3000/api/libros/getOne
+      Ruta:http://localhost:3000/api/libros/getOne/{valor_id}
     </p>
     <p>
-      Parámetros: En el cuerpo de Postman debe enviarse un dato de tipo raw y json, cuyo par clave-valor tendrá como clave "id" y el valor será el id del libro buscado.
+      Parámetros: Un parámetro en la url que identifica el id del libro buscado
     </p>
   </li>
 <li>
@@ -39,6 +39,7 @@
 <li>
     <p>
       updateLibro: permite actualizar los datos de un libro mediante el id del mismo. Los datos pasados deben ser los mismos que para addLibro, pero no se requiere que sean pasados todos a la vez, ya que la API puede modificar sólo algunos campos del libro. Es obligatorio pasar el id del libro para la actualización.
+      El método empleado para implementarlo fue PATCH
     </p>
     <p>
       Ruta:http://localhost:3000/api/libros/updateLibro
